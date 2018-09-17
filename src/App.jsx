@@ -1,22 +1,26 @@
 import React from 'react'
 import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap'
 import Profile from './Profile'
+import Gallery from './Gallery'
 
 class App extends React.Component {
     constructor(props){
         super(props)
         this.state = {
             query: '',
-            artist: null
+            artist: null,
+            tracks: []
+            
         }
     }
     
     onSearch(){
         // console.log(this.state)
         const BASE_URL = 'https://api.spotify.com/v1/search?'
-        const FECTH_URL = BASE_URL + 'q=' + this.state.query + '&type=artist&limit=1'
+        let FECTH_URL = BASE_URL + 'q=' + this.state.query + '&type=artist&limit=1'
+        const ALBUM_URL = '	https://api.spotify.com/v1/artists'
                         //`${BASE_URL}q=${this.state.query}&type=artist&limit=1`   ==>  es6
-        var accessToken = 'BQBYL5NZTgx1snfByvJqNSSK49ZcMZewTenqok5_uu54mKGoOWzrxCr_JRWVr9yblSfaXkquz0GrqTR00_8PT0C74hhpoOEied7JnL_udqIIKfcDh1dmOFv3pGkAtttnrxV0KjMtEeQb1DX6qsXk4A9ZMeSgr8iynDN318ITWJsh6ZRLonWo&refresh_token=AQDETT05p71n7_Y9KO6CZUMYe4dkEb83ptdgLcjdPKrgjJBG-sJfBeGAMvpPiCuvCYR3ECcnhDbNcB-4qoCvJ2igNYQbCENQV7V4zzMQUfyo08P_t8ErVmLBFZ49R9f-Sf9hrg'
+        var accessToken = 'BQDmQ-PVVvthf2tQ9j9G3gjI5kl_tm95GtI-e4rbctJCGe7jWiXrAqjUEBo0BNmBPDrN2KYryItcx5JNqxC1H9eughWga1H60pFDkZ8AsP1os2Y0W8mFgVeNn1JN68KjfHRKFw4g0d30OuljRcj50-OPmS6E7tf2yE5eCL33HxdzMoIBuuC2&refresh_token=AQD5cIpN--aOpKdG0cjAe9wdzEBUqnBUT00S7YKKvqILokY22s76WVC900UL8ZbeOjs1yDVMmHiWQYmuOGJo439ARHklDQkuDawqVYAYV65MZKGZhrghJcFnDnZsiLp8lISjJA'
 
         var myOptions = {
             method: 'GET',
@@ -31,13 +35,26 @@ class App extends React.Component {
             .then(response => response.json())
             .then(json => {
                 const artist = json.artists.items[0]
-                this.setState({ artist })
+                
+                this.setState({ 
+                    artist 
+                })
+
+                FECTH_URL = `${ALBUM_URL}/${artist.id}/top-tracks?country=US&`
+                fetch(FECTH_URL, myOptions)
+                    .then(response => response.json())
+                    .then(json => {
+                        console.log(json)
+                        const tracks = json.tracks
+                        // const { tracks } = json   => ini ge bisa
+                        this.setState({
+                            tracks
+                        })
+                    })
             })
     }
 
     render() {
-
-        
         return (
             <div className="App">
                 <div className="App-title">Music App</div>
@@ -67,8 +84,18 @@ class App extends React.Component {
                         </InputGroup.Addon>
                     </InputGroup>
                 </FormGroup>
-                <Profile artist={this.state.artist}/>
-                <div className="gallery">Gallery</div>
+                {
+                    this.state.artist !== null
+                    ? <div>
+                        <Profile 
+                        artist={this.state.artist}
+                        />
+                        <Gallery 
+                            tracks={this.state.tracks}
+                        />
+                      </div>
+                    : <div></div>
+                }
             </div>
         )
     }
