@@ -32,7 +32,7 @@ class Profile extends React.Component{
                     <div className="profile-genre">
                         {
                             artist.genres.map((genre, id) => {
-                                genre = genre !== artist.genres[artist.genres.length-1] ? ` ${genre},` : ` ${genre}` /* kondisi jika genre lebih dari 1*/
+                                genre = genre !== artist.genres[artist.genres.length-1] ? ` ${genre}, ` : ` ${genre}` /* kondisi jika genre lebih dari 1*/
                                 return(
                                     <span key={id}>{genre}</span>
                                 )
