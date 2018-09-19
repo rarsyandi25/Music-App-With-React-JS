@@ -19,6 +19,8 @@ class App extends React.Component {
         let FECTH_URL = BASE_URL + 'q=' + this.state.query + '&type=artist&limit=1'
         const ALBUM_URL = '	https://api.spotify.com/v1/artists'
                         //`${BASE_URL}q=${this.state.query}&type=artist&limit=1`   ==>  es6
+
+        //your access token
         var accessToken = 'BQAnGjRq15r7Y3xFX_5TKRTSw0a8i2OA3Y0U6ZKg93Ah2pIYwEo7HoP8xp928800xM4tq6oqhXs9yEncmcj-NzoW-NVEKnh0ydMLiIoTOH1e82DzrAfj_JmzHC_iaX3BoMNHoKMdmAx2WP1ponMWi5KMhEZ6yRNIHhvjhVl81bFWNqyi3ScE&refresh_token=AQBwUz185g4GK2Id46O8Ia9thi1oJ202AxhYk1L8fqNEfp43WymaE_bDr_rZKoFNuWSh-Wft_tBOnWzIutSM8ymOhin9ukT9lA_E-CBuSDeAyVyn7LtI3zCHwtQOTDS9-8EONQ'
 
         var myOptions = {
